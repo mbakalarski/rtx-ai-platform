@@ -12,3 +12,6 @@ apply:
 test:
 	kubectl apply -f rtx/tests/gpu-pod.yaml
 	kubectl logs -f gpu-pod
+
+lint:
+	yamllint .
