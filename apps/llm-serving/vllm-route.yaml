@@ -7,8 +7,6 @@ spec:
   parentRefs:
   - name: main-gateway
     namespace: nginx-gateway
-  hostnames:
-  - llm.local
   rules:
   - matches:
     - path:

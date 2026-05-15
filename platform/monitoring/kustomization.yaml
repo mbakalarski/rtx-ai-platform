@@ -3,4 +3,5 @@ resources:
 - repository.yaml
 - helmrelease.yaml
 - dashboards/gpu-dashboard.yaml
-
+- prometheus-route.yaml
+- grafana-route.yaml
