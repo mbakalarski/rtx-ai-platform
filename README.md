@@ -27,9 +27,9 @@ make bootstrap
 ```
 
 Then open:
-- MLflow - http://<node-ip>/mlflow
-- Grafana - http://<node-ip>/grafana
-- vLLM - http://<node-ip>/llm
+- MLflow - `http://<node-ip>/mlflow`
+- Grafana - `http://<node-ip>/grafana`
+- vLLM - `http://<node-ip>/llm`
 
 ---
 
