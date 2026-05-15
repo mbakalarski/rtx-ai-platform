@@ -10,17 +10,6 @@ Includes:
 - FluxCD GitOps management
 - NVIDIA GPU runtime integration
 
-
-```mermaid
-graph TD
-    FluxCD --> Kubernetes
-    Kubernetes --> vLLM
-    Kubernetes --> MLflow
-    Kubernetes --> Grafana
-    Kubernetes --> Prometheus
-    Prometheus --> DCGM
-```
-
 ---
 
 ## Prerequisites
