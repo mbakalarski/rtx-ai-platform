@@ -12,6 +12,12 @@ spec:
     - path:
         type: PathPrefix
         value: /llm
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /
     backendRefs:
     - name: vllm-qwen-coder
       namespace: llm
