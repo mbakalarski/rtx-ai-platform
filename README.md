@@ -1,6 +1,6 @@
 # RTX AI Platform
 
-GitOps-managed single-node Kubernetes platform for local AI workloads on NVIDIA RTX GPU.
+GitOps-managed single-node Kubernetes platform for local AI workloads on NVIDIA RTX GPUs.
 
 Includes:
 - vLLM inference serving
@@ -10,81 +10,52 @@ Includes:
 - FluxCD GitOps management
 - NVIDIA GPU runtime integration
 
+
+```mermaid
+graph TD
+    FluxCD --> Kubernetes
+    Kubernetes --> vLLM
+    Kubernetes --> MLflow
+    Kubernetes --> Grafana
+    Kubernetes --> Prometheus
+    Prometheus --> DCGM
+```
+
 ---
 
-## ⚙️ Setup
-
-### 1. Prerequisites
+## Prerequisites
 
 * GPU visible (`nvidia-smi`)
-* NVIDIA container runtime configured (e.g. nvidia-container-toolkit with containerd)
-* Kubernetes with StorageClass (local path)
+* NVIDIA container runtime configured (e.g. `nvidia-container-toolkit`)
+* Kubernetes cluster with a default StorageClass
 
 ---
 
-### 2. Install FluxCD (GitOps mode)
+## Quickstart
 
 ```bash
-curl -s https://fluxcd.io/install.sh | sudo bash
+make bootstrap
 ```
 
-```bash
-flux bootstrap <provider>
-```
-This installs FluxCD and links the cluster to this repository.
+Then open:
+- MLflow - http://<node-ip>/mlflow
+- Grafana - http://<node-ip>/grafana
+- vLLM - http://<node-ip>/llm
 
 ---
 
-### 3. Manual / no Git sync (optional)
-
-FluxCD is used as the GitOps engine, but the repository can also be applied manually for local development.
-
-```
-flux install
-```
-This installs Flux w/o repo sync.
+## GPU Validation
 
 ```bash
-kubectl apply -k infrastructure/ingress/crds
+make test
 ```
 
-CRDs are also included in cluster kustomizations, but applying them separately speeds up first install.
-
-Then:
-
-```bash
-kubectl apply -k clusters/rtx
-```
+Expected:
+- CUDA sample executes successfully
+- GPU allocation works correctly
 
 ---
 
-## 🧪 GPU Validation - RTX
-
-```bash
-kubectl apply -f rtx/tests/gpu-pod.yaml
-```
-
-```bash
-kubectl logs gpu-pod
-```
-
-Expected: CUDA sample executes successfully.
-
----
-
-## 🌐 Access Services
-
-WebUI:
-
-* MLflow → `/mlflow`
-* Grafana → `/grafana`
-* Prometheus → `/prometheus`
-* Alertmanager → `/alertmanager`
-
-and LLM API with `llm` prefix
-
----
-
-## 📄 License
+## License
 
 TBD
