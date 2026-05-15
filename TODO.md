@@ -11,5 +11,3 @@ tokens/sec
 KV cache hit rate
 
 vLLM exposes Prometheus metrics already.
-
-
