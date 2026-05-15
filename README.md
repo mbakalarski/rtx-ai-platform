@@ -23,25 +23,13 @@ Includes:
 ## Quickstart
 
 ```bash
-make bootstrap
+make all
 ```
 
 Then open:
 - MLflow - `http://<node-ip>:<node-port>/mlflow`
 - Grafana - `http://<node-ip>:<node-port>/grafana`
 - vLLM - `http://<node-ip>:<node-port>/llm`
-
----
-
-## GPU Validation
-
-```bash
-make test
-```
-
-Expected:
-- CUDA sample executes successfully
-- GPU allocation works correctly
 
 ---
 
