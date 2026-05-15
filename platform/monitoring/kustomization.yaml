@@ -1,0 +1,6 @@
+resources:
+- values.yaml
+- repository.yaml
+- helmrelease.yaml
+- dashboards/gpu-dashboard.yaml
+

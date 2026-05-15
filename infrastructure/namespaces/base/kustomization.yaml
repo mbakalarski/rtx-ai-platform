@@ -1,0 +1,5 @@
+resources:
+- monitoring.yaml
+- nginx-gateway.yaml
+- mlflow.yaml
+- llm.yaml

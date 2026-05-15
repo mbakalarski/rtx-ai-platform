@@ -1,0 +1,20 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: vllm-qwen-coder
+  namespace: llm
+spec:
+  parentRefs:
+  - name: main-gateway
+    namespace: nginx-gateway
+  hostnames:
+  - llm.local
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /llm
+    backendRefs:
+    - name: vllm-qwen-coder
+      namespace: llm
+      port: 8000

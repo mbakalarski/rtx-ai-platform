@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-nvidia-dcgm
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  dcgm-dashboard.json: |
+    {
+      "title": "NVIDIA GPU Metrics",
+      "panels": [
+        {
+          "type": "graph",
+          "title": "The rate of data TX over the PCIe bus",
+          "targets": [
+            {
+              "expr": "DCGM_FI_PROF_PCIE_TX_BYTES",
+              "legendFormat": "{{gpu}}"
+            }
+          ]
+        }
+      ]
+    }
+

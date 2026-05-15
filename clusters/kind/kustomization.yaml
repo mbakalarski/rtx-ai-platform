@@ -1,0 +1,11 @@
+resources:
+# infra
+- ../../infrastructure/namespaces/base
+- ../../infrastructure/networking
+
+# platform
+- ../../platform/monitoring
+
+# app
+- ../../apps/mlflow
+

@@ -1,0 +1,18 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mlflow
+  namespace: mlflow
+spec:
+  parentRefs:
+  - name: main-gateway
+    namespace: nginx-gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /mlflow
+    backendRefs:
+    - name: mlflow
+      namespace: mlflow
+      port: 5000
