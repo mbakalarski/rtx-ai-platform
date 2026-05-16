@@ -15,7 +15,7 @@ Includes:
 ## Prerequisites
 
 * GPU visible (`nvidia-smi`)
-* NVIDIA container runtime configured (e.g. `nvidia-container-toolkit`)
+* NVIDIA container runtime configured (`nvidia-container-toolkit`)
 * Kubernetes cluster with a default StorageClass
 
 ---
