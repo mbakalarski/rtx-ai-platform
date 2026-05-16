@@ -4,7 +4,6 @@ metadata:
   name: hf-cache
   namespace: llm
 spec:
-  storageClassName: local-path
   accessModes:
     - ReadWriteOnce
   resources:
