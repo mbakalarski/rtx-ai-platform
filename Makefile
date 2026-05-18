@@ -1,5 +1,7 @@
 .PHONY: all bootstrap deploy test lint cleanup
 
+.DEFAULT_GOAL := all
+
 CLUSTER := clusters/rtx
 
 all: bootstrap deploy
