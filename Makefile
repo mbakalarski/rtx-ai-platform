@@ -20,10 +20,10 @@ bootstrap:
 crds:
 	$(KUBECTL) apply -k infrastructure/networking/gateway-api/crds
 
-deploy: bootstrap crds
+deploy: cleanup-test-app-only bootstrap crds
 	$(KUBECTL) apply -k $(CLUSTER)
 
-test-deploy: bootstrap crds
+test-deploy: cleanup-llm-app-only bootstrap crds
 	$(KUBECTL) -n $(TEST_NS) apply -k $(CLUSTER_TEST)
 
 lint:
@@ -41,7 +41,7 @@ cleanup:
 cleanup-crds:
 	-$(KUBECTL) delete -k infrastructure/networking/gateway-api/crds --ignore-not-found=true
 
-test: cleanup test-deploy
+test: test-deploy
 	$(KUBECTL) wait \
 		--for=condition=Ready \
 		pod/gpu-pod \
@@ -50,10 +50,10 @@ test: cleanup test-deploy
 	$(KUBECTL) logs pod/gpu-pod -n $(TEST_NS) --tail=100
 
 cleanup-test-app-only:
-	$(KUBECTL) -n $(TEST_NS) delete -k apps/gpu-test
+	-$(KUBECTL) -n $(TEST_NS) delete -k apps/gpu-test
 
 cleanup-llm-app-only:
-	$(KUBECTL) -n $(TEST_NS) delete -k apps/llm-serving
+	-$(KUBECTL) -n $(TEST_NS) delete -k apps/llm-serving
 
 validate: bootstrap crds
 	$(KUBECTL) apply -k $(CLUSTER) --dry-run=client --validate=true
