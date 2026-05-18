@@ -13,4 +13,3 @@ resources:
 # app
 - ../../apps/mlflow
 - ../../apps/llm-serving
-

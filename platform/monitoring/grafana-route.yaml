@@ -16,4 +16,3 @@ spec:
     - name: kps-grafana
       namespace: monitoring
       port: 80
-

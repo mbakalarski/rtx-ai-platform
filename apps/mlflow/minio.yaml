@@ -101,4 +101,3 @@ spec:
           mc ls minio/mlflow || mc mb -p minio/mlflow
 
           echo "Done"
-

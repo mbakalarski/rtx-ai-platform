@@ -1,13 +1,15 @@
-0) sealed secrets
+0) kubeconform
 
-1) Open WebUI in front of vLLM
+1) sealed secrets
 
-2) Monitoring ideas
+2) Open WebUI in front of vLLM
 
-DCGM exporter metrics
-vLLM Prometheus metrics
-request latency
-tokens/sec
-KV cache hit rate
+3) Monitoring ideas
 
-vLLM exposes Prometheus metrics already.
+    DCGM exporter metrics
+    vLLM Prometheus metrics
+    request latency
+    tokens/sec
+    KV cache hit rate
+    
+    vLLM exposes Prometheus metrics already.

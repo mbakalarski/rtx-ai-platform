@@ -15,55 +15,48 @@ spec:
       runtimeClassName: nvidia
       hostIPC: true
       containers:
-        - name: vllm
-          image: vllm/vllm-openai:v0.20.2
-
-          command: ["vllm", "serve"]
-          args:
-          - Qwen/Qwen2.5-Coder-14B-Instruct-AWQ
-          - --quantization=awq_marlin
-          - --dtype=float16
-          - --max-model-len=14928
-          - --gpu-memory-utilization=0.92
-          - --enable-prefix-caching
-          - --enable-auto-tool-choice
-          - --tool-call-parser=hermes
-
-          ports:
-            - containerPort: 8000
-
-          env:
-            - name: HF_HOME
-              value: /models
-
-          volumeMounts:
-            - name: hf-cache
-              mountPath: /models
-            - name: shm
-              mountPath: /dev/shm
-
-          resources:
-            limits:
-              nvidia.com/gpu: 1
-
-          startupProbe:
-            httpGet:
-              path: /health
-              port: 8000
-            failureThreshold: 90
-            periodSeconds: 10
-
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8000
-            periodSeconds: 10
+      - name: vllm
+        image: vllm/vllm-openai:v0.20.2
+        command: ["vllm", "serve"]
+        args:
+        - Qwen/Qwen2.5-Coder-14B-Instruct-AWQ
+        - --quantization=awq_marlin
+        - --dtype=float16
+        - --max-model-len=14928
+        - --gpu-memory-utilization=0.92
+        - --enable-prefix-caching
+        - --enable-auto-tool-choice
+        - --tool-call-parser=hermes
+        ports:
+        - containerPort: 8000
+        env:
+        - name: HF_HOME
+          value: /models
+        volumeMounts:
+        - name: hf-cache
+          mountPath: /models
+        - name: shm
+          mountPath: /dev/shm
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          failureThreshold: 90
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          periodSeconds: 10
 
       volumes:
-        - name: hf-cache
-          persistentVolumeClaim:
-            claimName: hf-cache
-        - name: shm
-          emptyDir:
-            medium: Memory
-            sizeLimit: 8Gi
+      - name: hf-cache
+        persistentVolumeClaim:
+          claimName: hf-cache
+      - name: shm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 8Gi

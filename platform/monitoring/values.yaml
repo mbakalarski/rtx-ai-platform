@@ -36,4 +36,3 @@ data:
         size: 20Gi
         finalizers:
         - kubernetes.io/pvc-protection
-

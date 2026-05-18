@@ -24,4 +24,3 @@ spec:
     - name: kps-kube-prometheus-stack-alertmanager
       namespace: monitoring
       port: 9093
-

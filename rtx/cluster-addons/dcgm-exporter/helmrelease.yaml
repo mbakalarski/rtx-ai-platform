@@ -22,4 +22,3 @@ spec:
       honorLabels: true
       additionalLabels:
         release: kps   # must match Prometheus HelmRelease (label release=kps)
-

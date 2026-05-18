@@ -1,11 +1,36 @@
 extends: default
 
+ignore: |
+  .git/
+  .flux-system/
+  **/charts/
+  **/templates/
+  **/crds/
+  **/build/
+  **/dist/
+
 rules:
+  indentation:
+    spaces: 2
+    indent-sequences: false
+    check-multi-line-strings: false
+
+  document-start: disable
+
+  new-line-at-end-of-file:
+    level: warning
+
+  trailing-spaces:
+    level: warning
+
+  empty-lines:
+    max: 2
+
   line-length:
-    max: 140
+    max: 160
+    level: warning
 
   comments:
     min-spaces-from-content: 1
 
   truthy: disable
-  

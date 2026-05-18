@@ -16,6 +16,5 @@ spec:
         name: prometheus-community
         namespace: flux-system
   valuesFrom:
-    - kind: ConfigMap
-      name: kps-values
-
+  - kind: ConfigMap
+    name: kps-values
