@@ -8,7 +8,6 @@ KUBECTL := kubectl
 
 CLUSTER := clusters/rtx
 CLUSTER_TEST := clusters/rtx-test
-TEST_NS := default
 FLUX_NS := flux-system
 
 bootstrap:
@@ -24,7 +23,7 @@ deploy: cleanup-test-app-only bootstrap crds
 	$(KUBECTL) apply -k $(CLUSTER)
 
 test-deploy: cleanup-llm-app-only bootstrap crds
-	$(KUBECTL) -n $(TEST_NS) apply -k $(CLUSTER_TEST)
+	$(KUBECTL) apply -k $(CLUSTER_TEST)
 
 lint:
 	yamllint .
@@ -45,12 +44,11 @@ test: test-deploy
 	$(KUBECTL) wait \
 		--for=condition=Ready \
 		pod/gpu-pod \
-		-n $(TEST_NS) \
 		--timeout=120s
-	$(KUBECTL) logs pod/gpu-pod -n $(TEST_NS) --tail=100
+	$(KUBECTL) logs pod/gpu-pod --tail=100
 
 cleanup-test-app-only:
-	-$(KUBECTL) -n $(TEST_NS) delete -k apps/gpu-test
+	-$(KUBECTL) delete -k apps/gpu-test
 
 cleanup-llm-app-only:
 	-$(KUBECTL) delete -k apps/llm-serving
