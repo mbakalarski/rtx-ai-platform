@@ -1,4 +1,4 @@
-.PHONY: bootstrap crds deploy test-deploy lint diff cleanup cleanup-crds test validate
+.PHONY: bootstrap crds deploy test-deploy lint diff cleanup cleanup-crds test cleanup-test-app-only cleanup-llm-app-only validate
 .DEFAULT_GOAL := deploy
 
 SHELL := /bin/bash
@@ -24,7 +24,7 @@ deploy: bootstrap crds
 	$(KUBECTL) apply -k $(CLUSTER)
 
 test-deploy: bootstrap crds
-	$(KUBECTL) apply -k $(CLUSTER_TEST)
+	$(KUBECTL) -n $(TEST_NS) apply -k $(CLUSTER_TEST)
 
 lint:
 	yamllint .
@@ -48,6 +48,12 @@ test: cleanup test-deploy
 		-n $(TEST_NS) \
 		--timeout=120s
 	$(KUBECTL) logs pod/gpu-pod -n $(TEST_NS) --tail=100
+
+cleanup-test-app-only:
+	$(KUBECTL) -n $(TEST_NS) delete -k apps/gpu-test
+
+cleanup-llm-app-only:
+	$(KUBECTL) -n $(TEST_NS) delete -k apps/llm-serving
 
 validate: bootstrap crds
 	$(KUBECTL) apply -k $(CLUSTER) --dry-run=client --validate=true
