@@ -50,5 +50,5 @@ test: cleanup test-deploy
 	$(KUBECTL) logs pod/gpu-pod -n $(TEST_NS) --tail=100
 
 validate: bootstrap crds
-	$(KUBECTL) apply -k $(CLUSTER) --dry-run=server --validate=true
-	$(KUBECTL) apply -k $(CLUSTER_TEST) --dry-run=server --validate=true
+	$(KUBECTL) apply -k $(CLUSTER) --dry-run=client --validate=true
+	$(KUBECTL) apply -k $(CLUSTER_TEST) --dry-run=client --validate=true
