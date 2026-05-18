@@ -4,8 +4,6 @@
 
 CLUSTER := clusters/rtx
 
-all: bootstrap deploy
-
 bootstrap:
 	curl -s https://fluxcd.io/install.sh | sudo bash
 	flux check || flux install
@@ -26,3 +24,5 @@ lint:
 
 cleanup:
 	kubectl delete -k $(CLUSTER) --ignore-not-found=true
+
+all: bootstrap deploy
