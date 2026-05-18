@@ -1,40 +1,54 @@
-.PHONY: bootstrap crds apply test lint diff cleanup deploy
-
+.PHONY: bootstrap crds deploy test-deploy lint diff cleanup cleanup-crds test validate
 .DEFAULT_GOAL := deploy
 
 SHELL := /bin/bash
 .SHELLFLAGS := -eu -o pipefail -c
 
+KUBECTL := kubectl
+
 CLUSTER := clusters/rtx
+CLUSTER_TEST := clusters/rtx-test
+TEST_NS := default
+FLUX_NS := flux-system
 
 bootstrap:
-	curl -sSf https://fluxcd.io/install.sh | sudo bash
+	command -v flux >/dev/null || \
+		(curl -sSf https://fluxcd.io/install.sh | sudo bash)
 	flux check --pre
 	flux install
 
 crds:
-	kubectl apply -k infrastructure/networking/gateway-api/crds
+	$(KUBECTL) apply -k infrastructure/networking/gateway-api/crds
 
-apply: crds
-	kubectl apply -k $(CLUSTER)
+deploy: bootstrap crds
+	$(KUBECTL) apply -k $(CLUSTER)
 
-test: crds
-	kubectl delete pod gpu-pod --ignore-not-found=true
-	kubectl apply -f infrastructure/namespaces/gpu
-	kubectl apply -f rtx/cluster-addons
-	kubectl apply -f rtx/tests/gpu-pod.yaml
-	kubectl wait --for=condition=Ready pod/gpu-pod --timeout=120s
-	kubectl logs -f gpu-pod --tail=100
+test-deploy: bootstrap crds
+	$(KUBECTL) apply -k $(CLUSTER_TEST)
 
 lint:
 	yamllint .
-	kubectl kustomize $(CLUSTER) > /dev/null
+	$(KUBECTL) kustomize $(CLUSTER) > /dev/null
+	$(KUBECTL) kustomize $(CLUSTER_TEST) > /dev/null
 
 diff:
-	kubectl diff -k $(CLUSTER)
+	$(KUBECTL) diff -k $(CLUSTER)
 
 cleanup:
-	kubectl delete -k $(CLUSTER) --ignore-not-found=true
-	kubectl delete -k infrastructure/networking/gateway-api/crds --ignore-not-found=true
+	-$(KUBECTL) delete -k $(CLUSTER) --ignore-not-found=true
+	-$(KUBECTL) delete -k $(CLUSTER_TEST) --ignore-not-found=true
 
-deploy: bootstrap apply
+cleanup-crds:
+	-$(KUBECTL) delete -k infrastructure/networking/gateway-api/crds --ignore-not-found=true
+
+test: cleanup test-deploy
+	$(KUBECTL) wait \
+		--for=condition=Ready \
+		pod/gpu-pod \
+		-n $(TEST_NS) \
+		--timeout=120s
+	$(KUBECTL) logs pod/gpu-pod -n $(TEST_NS) --tail=100
+
+validate: bootstrap crds
+	$(KUBECTL) apply -k $(CLUSTER) --dry-run=server --validate=true
+	$(KUBECTL) apply -k $(CLUSTER_TEST) --dry-run=server --validate=true
