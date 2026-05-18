@@ -1,20 +1,26 @@
-.PHONY: bootstrap apply test
+.PHONY: all bootstrap deploy test lint cleanup
 
-all: bootstrap apply
+CLUSTER := clusters/rtx
+
+all: bootstrap deploy
 
 bootstrap:
 	curl -s https://fluxcd.io/install.sh | sudo bash
-	flux install
+	flux check || flux install
 	kubectl apply -k infrastructure/networking/gateway-api/crds
 
-apply:
-	kubectl apply -k clusters/rtx
+deploy:
+	kubectl apply -k $(CLUSTER)
 
 test:
-	kubectl delete pod gpu-pod --ignore-not-found
+	kubectl delete pod gpu-pod --ignore-not-found=true
 	kubectl apply -f rtx/tests/gpu-pod.yaml
 	kubectl wait --for=condition=Ready pod/gpu-pod --timeout=120s
 	kubectl logs -f gpu-pod
 
 lint:
 	yamllint .
+	kubectl apply -k $(CLUSTER) --dry-run=client > /dev/null
+
+cleanup:
+	kubectl delete -k $(CLUSTER) --ignore-not-found=true

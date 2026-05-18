@@ -23,13 +23,14 @@ Includes:
 ## Quickstart
 
 ```bash
-make all
+make deploy
 ```
 
 Then open:
 - MLflow - `http://<node-ip>:<node-port>/mlflow`
 - Grafana - `http://<node-ip>:<node-port>/grafana`
-- vLLM - `http://<node-ip>:<node-port>/llm`
+- Prometheus - `http://<node-ip>:<node-port>/prometheus`
+- vLLM - `http://<node-ip>:<node-port>/llm/v1/models`
 
 ---
 

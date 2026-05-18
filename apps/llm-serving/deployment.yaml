@@ -4,7 +4,6 @@ metadata:
   name: vllm-qwen-coder
   namespace: llm
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: vllm-qwen-coder
