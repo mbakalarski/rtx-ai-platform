@@ -5,10 +5,6 @@ resources:
 # infra
 - ../../infrastructure/namespaces/base
 - ../../infrastructure/namespaces/gpu
-- ../../infrastructure/networking
-
-# platform
-- ../../platform/monitoring
 
 # GPU stack
 - ../../rtx/cluster-addons
