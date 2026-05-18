@@ -23,7 +23,7 @@ Includes:
 ## Quickstart
 
 ```bash
-make deploy
+make
 ```
 
 Then open:

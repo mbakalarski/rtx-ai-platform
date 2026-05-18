@@ -18,8 +18,10 @@ crds:
 apply: crds
 	kubectl apply -k $(CLUSTER)
 
-test:
+test: crds
 	kubectl delete pod gpu-pod --ignore-not-found=true
+	kubectl apply -f infrastructure/namespaces/gpu
+	kubectl apply -f rtx/cluster-addons
 	kubectl apply -f rtx/tests/gpu-pod.yaml
 	kubectl wait --for=condition=Ready pod/gpu-pod --timeout=120s
 	kubectl logs -f gpu-pod --tail=100
