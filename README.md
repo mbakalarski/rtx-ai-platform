@@ -1,6 +1,6 @@
 # RTX AI Platform
 
-GitOps-managed single-node Kubernetes platform for local AI workloads on NVIDIA RTX GPUs.
+GitOps-first single-node Kubernetes platform for local AI workloads on NVIDIA RTX GPUs.
 
 Includes:
 - vLLM inference serving
@@ -21,6 +21,8 @@ Includes:
 ---
 
 ## Quickstart
+
+GitOps-ready via FluxCD, but optimized for quick local setup:
 
 ```bash
 make
